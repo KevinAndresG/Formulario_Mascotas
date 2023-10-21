@@ -19,7 +19,7 @@ function App() {
     nombre_mascota: "",
     edad: "",
     genero: "",
-    dia_cita: new Date().toISOString().substring(0, 10),
+    dia_cita: '',
     nombre_dueño: "",
   });
   const [validacion, setValidacion] = useState({
@@ -50,7 +50,7 @@ function App() {
         nombre_mascota: "",
         edad: "",
         genero: "",
-        dia_cita: new Date().toISOString().substring(0, 10),
+        dia_cita: "",
         nombre_dueño: "",
       });
       setValidacion({
@@ -69,7 +69,7 @@ function App() {
     let toDeleteDate = [...registrations]
     toDeleteDate.splice(id, 1)
     setRegistrations(toDeleteDate)
-    localStorage.setItem("registers", JSON.stringify(toDeleteDate))
+    // localStorage.setItem("registers", JSON.stringify(toDeleteDate))
   }
   return (
     <div className="app">
@@ -87,9 +87,9 @@ function App() {
             />
           </label>
           {(!validacion.nombre_mascota && formSend) && (
-            <div className="error-label">
+            <span className="error-label">
               Por favor ingresar nombre de la mascota
-            </div>
+            </span>
           )}
         </div>
 
@@ -105,9 +105,9 @@ function App() {
             />
           </label>
           {(!validacion.edad && formSend) && (
-            <div className="error-label">
+            <span className="error-label">
               Por favor ingrese la edad de la mascota
-            </div>
+            </span>
           )}
         </div>
 
@@ -123,9 +123,9 @@ function App() {
             />
           </label>
           {(!validacion.genero && formSend) && (
-            <div className="error-label">
+            <span className="error-label">
               Por favor ingrese el genero de la mascota
-            </div>
+            </span>
           )}
         </div>
 
@@ -140,9 +140,9 @@ function App() {
             />
           </label>
           {(!validacion.dia_cita && formSend) && (
-            <div className="error-label">
+            <span className="error-label">
               Por favor ingrese el dia de la cita
-            </div>
+            </span>
           )}
         </div>
 
@@ -158,9 +158,9 @@ function App() {
             />
           </label>
           {(!validacion.nombre_dueño && formSend) && (
-            <div className="error-label">
+            <span className="error-label">
               Por favor ingrese el nombre del dueño
-            </div>
+            </span>
           )}
         </div>
 
