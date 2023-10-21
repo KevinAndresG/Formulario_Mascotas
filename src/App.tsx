@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
 
-// interface FormModel {
-//   nombre_mascota: string;
-//   edad: string;
-//   genero: string;
-//   dia_cita: string;
-//   nombre_dueno: string;
-// }
+interface FormModel {
+  nombre_mascota: string;
+  edad: string;
+  genero: string;
+  dia_cita: string;
+  nombre_dueño: string;
+}
 
 function App() {
   const [registrations, setRegistrations] = useState(
@@ -15,80 +15,62 @@ function App() {
       ? JSON.parse(localStorage.getItem("registers")!)
       : []
   );
-  const [form, setForm] = useState<any>({
+  const [form, setForm] = useState<FormModel>({
     nombre_mascota: "",
     edad: "",
     genero: "",
     dia_cita: new Date().toISOString().substring(0, 10),
-    nombre_dueno: "",
+    nombre_dueño: "",
   });
   const [validacion, setValidacion] = useState({
-    nombre_mascota: true,
-    edad: true,
-    genero: true,
-    dia_cita: true,
-    nombre_dueno: true,
+    nombre_mascota: false,
+    edad: false,
+    genero: false,
+    dia_cita: false,
+    nombre_dueño: false,
   });
+  const [formSend, setFormSend] = useState(false)
   useEffect(() => {
     if (registrations.length > 0) {
-      // registrations.forEach((cita: any) => {
-      //   if (Number(cita.edad.split(' ')[0])) {
-      //     cita.edad = Number(cita.edad.split(' ')[0]);
-      //   }
-      //   setRegistrations([...registrations, cita]);
-      // });
       localStorage.setItem("registers", JSON.stringify(registrations));
     }
   }, [registrations]);
-  useEffect(() => {
-    // console.log("This is - validaciones = ", validacion);
-  }, [validacion]);
 
   const handleInputChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value ? e.target.value : null });
+    setValidacion({ ...validacion, [e.target.name]: e.target.value ? true : false });
   };
 
   const handleFormSubmit = (e: any) => {
     e.preventDefault();
-    let newObj: any = { ...validacion };
-    for (let inp in form) {
-      let string: string = inp;
-      if (form[string] === "") {
-        newObj[inp] = false;
-        setValidacion(newObj);
-        validateInputs(newObj);
-      } else {
-        newObj[inp] = true;
-        setValidacion(newObj);
-        validateInputs(newObj);
-      }
-      // setValidacion({ ...validacion, [inp]: inp.value !== '' });
-    }
-    // form.edad += ' Años'
-    // console.log("This is - form = ", form);
-    // console.log("This is - form.edad = ", form.edad);
-  };
-  const validateInputs = (obj: any) => {
-    if (Object.values(obj).every((key) => key === true)) {
+    setFormSend(true);
+    if (Object.values(validacion).every((key) => key === true)) {
       setRegistrations([...registrations, form]);
       setForm({
         nombre_mascota: "",
         edad: "",
         genero: "",
         dia_cita: new Date().toISOString().substring(0, 10),
-        nombre_dueno: "",
+        nombre_dueño: "",
       });
       setValidacion({
-        nombre_mascota: true,
-        edad: true,
-        genero: true,
-        dia_cita: true,
-        nombre_dueno: true,
+        nombre_mascota: false,
+        edad: false,
+        genero: false,
+        dia_cita: false,
+        nombre_dueño: false,
       });
+      setFormSend(false);
     } else {
       return;
     }
   };
+  const deleteDate = (id: number) => {
+    let toDeleteDate = [...registrations]
+    toDeleteDate.splice(id, 1)
+    setRegistrations(toDeleteDate)
+    localStorage.setItem("registers", JSON.stringify(toDeleteDate))
+  }
   return (
     <div className="app">
       <form className="form-card" onSubmit={handleFormSubmit}>
@@ -104,7 +86,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {!validacion.nombre_mascota && (
+          {(!validacion.nombre_mascota && formSend) && (
             <div className="error-label">
               Por favor ingresar nombre de la mascota
             </div>
@@ -122,7 +104,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {!validacion.edad && (
+          {(!validacion.edad && formSend) && (
             <div className="error-label">
               Por favor ingrese la edad de la mascota
             </div>
@@ -140,7 +122,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {!validacion.genero && (
+          {(!validacion.genero && formSend) && (
             <div className="error-label">
               Por favor ingrese el genero de la mascota
             </div>
@@ -157,7 +139,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {!validacion.dia_cita && (
+          {(!validacion.dia_cita && formSend) && (
             <div className="error-label">
               Por favor ingrese el dia de la cita
             </div>
@@ -169,13 +151,13 @@ function App() {
             Nombre dueño:
             <input
               type="text"
-              name="nombre_dueno"
+              name="nombre_dueño"
               placeholder="Jhon"
-              value={form.nombre_dueno}
+              value={form.nombre_dueño}
               onChange={handleInputChange}
             />
           </label>
-          {!validacion.nombre_dueno && (
+          {(!validacion.nombre_dueño && formSend) && (
             <div className="error-label">
               Por favor ingrese el nombre del dueño
             </div>
@@ -185,29 +167,38 @@ function App() {
         <button type="submit">Registrar</button>
       </form>
       <h1 className="registrations-label">Citas actuales:</h1>
-      <div className="registrations">
-        {registrations.map((registration: any, i: number) => (
-          <div className="registration-card" key={i}>
-            <h2>{registration.nombre_mascota}</h2>
-            <p>
-              <strong>Edad:⠀</strong>
-              {registration.edad}
-            </p>
-            <p>
-              <strong>Género:⠀</strong>
-              {registration.genero}
-            </p>
-            <p>
-              <strong>Fecha Cita:⠀</strong>
-              {registration.dia_cita}
-            </p>
-            <p>
-              <strong>Dueño:⠀</strong>
-              {registration.nombre_dueno}
-            </p>
-          </div>
-        ))}
-      </div>
+      {(registrations && registrations.length > 0) ? (
+        <div className="registrations">
+          {registrations.map((registration: any, i: number) => (
+            <div className="registration-card" key={i}>
+              <p onClick={() => {
+                deleteDate(i);
+              }} className="close">X</p>
+              <h2>{registration.nombre_mascota}</h2>
+              <p>
+                <strong>Edad:⠀</strong>
+                {registration.edad}
+              </p>
+              <p>
+                <strong>Género:⠀</strong>
+                {registration.genero}
+              </p>
+              <p>
+                <strong>Fecha Cita:⠀</strong>
+                {registration.dia_cita}
+              </p>
+              <p>
+                <strong>Dueño:⠀</strong>
+                {registration.nombre_dueño}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="no-registrations">
+          <h2>No se han registrado citas</h2>
+        </div>
+      )}
     </div>
   );
 }
