@@ -3,7 +3,7 @@ un sistema de validacion mediante se ingresan datos en cada input se valida si e
 
 Integrantes:
 Kevin Garcia.
-Paola Jimenez.
+Paula Jimenez.
 Rodrigo Lara.
 Juan Esteban Ballesteros.
 Felipe Cordoba.
