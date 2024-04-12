@@ -79,7 +79,9 @@
       font-family: "Snippet", sans-serif;
       font-weight: 600;
       font-style: normal;
-      width: 200px;
+      max-width: 200px;
+      min-width: 70px;
+      width: 40%;
       padding: 17px 0;
       background-color: white;
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.63), inset 0 0 3px rgba(0, 0, 0, 0.63);
@@ -92,7 +94,7 @@
 
     button:hover {
       align-self: center;
-      width: 250px;
+      width: 50%;
       border-radius: 10px;
       letter-spacing: 2px;
       background-color: hsl(209, 61%, 56%);
@@ -116,6 +118,20 @@
     font-style: normal;
     text-align: center;
     color: hsl(0, 0%, 100%);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    p {
+      padding: 0;
+      margin: 0;
+      margin: 0 10px;
+      text-align: center;
+      width: 100%;
+      &.inner-text {
+        font-size: 18px;
+        font-weight: 400;
+      }
+    }
   }
 
   .no-registrations {

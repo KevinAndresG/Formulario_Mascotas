@@ -197,7 +197,12 @@ function App() {
 
         <button type="submit">Registrar</button>
       </form>
-      <h1 className="registrations-label">Citas actuales:</h1>
+      <h1 className="registrations-label">
+        <p>Citas actuales</p>
+        <p className="inner-text">
+          se ordenan por la fecha más cercana a la mas lejana.
+        </p>
+      </h1>
       {sortedRegistrations && sortedRegistrations.length > 0 ? (
         <div className="registrations">
           {sortedRegistrations
