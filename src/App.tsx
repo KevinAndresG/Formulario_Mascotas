@@ -15,30 +15,45 @@ function App() {
       ? JSON.parse(localStorage.getItem("registers")!)
       : []
   );
+  const [sortedRegistrations, setsortedRegistrations] = useState([]);
   const [form, setForm] = useState<FormModel>({
     nombre_mascota: "",
     edad: "",
-    genero: "",
-    dia_cita: '',
+    genero: "Macho",
+    dia_cita: "",
     nombre_dueño: "",
   });
   const [validacion, setValidacion] = useState({
     nombre_mascota: false,
     edad: false,
-    genero: false,
+    genero: true,
     dia_cita: false,
     nombre_dueño: false,
   });
-  const [formSend, setFormSend] = useState(false)
+  const [formSend, setFormSend] = useState(false);
+  const compararFechas = (citaA: any, citaB: any) => {
+    const fechaA: any = new Date(citaA.dia_cita);
+    const fechaB: any = new Date(citaB.dia_cita);
+    return fechaA - fechaB;
+  };
   useEffect(() => {
-    if (registrations.length > 0) {
+    if (registrations.length >= 0) {
       localStorage.setItem("registers", JSON.stringify(registrations));
+      let regs = [...registrations];
+      const sortedRegs: any = regs.sort(compararFechas);
+      setsortedRegistrations(sortedRegs);
     }
   }, [registrations]);
 
   const handleInputChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value ? e.target.value : null });
-    setValidacion({ ...validacion, [e.target.name]: e.target.value ? true : false });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value ? e.target.value : null,
+    });
+    setValidacion({
+      ...validacion,
+      [e.target.name]: e.target.value ? true : false,
+    });
   };
 
   const handleFormSubmit = (e: any) => {
@@ -49,14 +64,14 @@ function App() {
       setForm({
         nombre_mascota: "",
         edad: "",
-        genero: "",
+        genero: form.genero,
         dia_cita: "",
         nombre_dueño: "",
       });
       setValidacion({
         nombre_mascota: false,
         edad: false,
-        genero: false,
+        genero: true,
         dia_cita: false,
         nombre_dueño: false,
       });
@@ -66,11 +81,11 @@ function App() {
     }
   };
   const deleteDate = (id: number) => {
-    let toDeleteDate = [...registrations]
-    toDeleteDate.splice(id, 1)
-    setRegistrations(toDeleteDate)
-    // localStorage.setItem("registers", JSON.stringify(toDeleteDate))
-  }
+    let toDeleteDate: any = [...sortedRegistrations];
+    toDeleteDate.splice(id, 1);
+    setRegistrations(toDeleteDate);
+    setsortedRegistrations(toDeleteDate);
+  };
   return (
     <div className="app">
       <form className="form-card" onSubmit={handleFormSubmit}>
@@ -86,7 +101,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {(!validacion.nombre_mascota && formSend) && (
+          {!validacion.nombre_mascota && formSend && (
             <span className="error-label">
               Por favor ingresar nombre de la mascota
             </span>
@@ -104,7 +119,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {(!validacion.edad && formSend) && (
+          {!validacion.edad && formSend && (
             <span className="error-label">
               Por favor ingrese la edad de la mascota
             </span>
@@ -114,15 +129,31 @@ function App() {
         <div className="input-field">
           <label>
             Género:
-            <input
-              type="text"
-              name="genero"
-              placeholder="Macho, Hembra"
-              value={form.genero}
-              onChange={handleInputChange}
-            />
+            <label className="radioLabel" htmlFor="Macho">
+              <input
+                className="radio"
+                type="radio"
+                defaultChecked
+                id="Macho"
+                name="genero"
+                value="Macho"
+                onChange={handleInputChange}
+              />
+              Macho
+            </label>
+            <label className="radioLabel" htmlFor="Hembra">
+              <input
+                className="radio"
+                type="radio"
+                id="Hembra"
+                name="genero"
+                value="Hembra"
+                onChange={handleInputChange}
+              />
+              Hembra
+            </label>
           </label>
-          {(!validacion.genero && formSend) && (
+          {!validacion.genero && formSend && (
             <span className="error-label">
               Por favor ingrese el genero de la mascota
             </span>
@@ -139,7 +170,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {(!validacion.dia_cita && formSend) && (
+          {!validacion.dia_cita && formSend && (
             <span className="error-label">
               Por favor ingrese el dia de la cita
             </span>
@@ -157,7 +188,7 @@ function App() {
               onChange={handleInputChange}
             />
           </label>
-          {(!validacion.nombre_dueño && formSend) && (
+          {!validacion.nombre_dueño && formSend && (
             <span className="error-label">
               Por favor ingrese el nombre del dueño
             </span>
@@ -167,32 +198,39 @@ function App() {
         <button type="submit">Registrar</button>
       </form>
       <h1 className="registrations-label">Citas actuales:</h1>
-      {(registrations && registrations.length > 0) ? (
+      {sortedRegistrations && sortedRegistrations.length > 0 ? (
         <div className="registrations">
-          {registrations.map((registration: any, i: number) => (
-            <div className="registration-card" key={i}>
-              <p onClick={() => {
-                deleteDate(i);
-              }} className="close">X</p>
-              <h2>{registration.nombre_mascota}</h2>
-              <p>
-                <strong>Edad:⠀</strong>
-                {registration.edad}
-              </p>
-              <p>
-                <strong>Género:⠀</strong>
-                {registration.genero}
-              </p>
-              <p>
-                <strong>Fecha Cita:⠀</strong>
-                {registration.dia_cita}
-              </p>
-              <p>
-                <strong>Dueño:⠀</strong>
-                {registration.nombre_dueño}
-              </p>
-            </div>
-          ))}
+          {sortedRegistrations
+            .sort((a: any, b: any) => a.dia_cita - b.dia_cita)
+            .map((registration: any, i: number) => (
+              <div className="registration-card" key={i}>
+                <p
+                  onClick={() => {
+                    deleteDate(i);
+                  }}
+                  className="close"
+                >
+                  X
+                </p>
+                <h2>{registration.nombre_mascota}</h2>
+                <p>
+                  <strong>Edad:⠀</strong>
+                  {registration.edad}
+                </p>
+                <p>
+                  <strong>Género:⠀</strong>
+                  {registration.genero}
+                </p>
+                <p>
+                  <strong>Fecha Cita:⠀</strong>
+                  {registration.dia_cita}
+                </p>
+                <p>
+                  <strong>Dueño:⠀</strong>
+                  {registration.nombre_dueño}
+                </p>
+              </div>
+            ))}
         </div>
       ) : (
         <div className="no-registrations">

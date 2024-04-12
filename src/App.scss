@@ -1,171 +1,211 @@
 .app {
+  display: flex;
+  min-height: 100vh;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  background-color: #313131;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 30px 0 30px 0;
+  box-sizing: border-box;
+
+  .form-card {
+    font-family: "Snippet", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #88c9dd;
     display: flex;
-    min-height: 100vh;
-    height: auto;
     flex-direction: column;
-    align-items: center;
-    background-color: #3795bb;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 30px 0 30px 0;
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(0, 0, 0), inset 0 0 5px rgb(31, 31, 31);
 
-    .form-card {
-        background-color: #fff;
+    h1 {
+      text-align: center;
+      margin-top: 0px;
+    }
+
+    .error-label {
+      font-size: 13px;
+      color: rgb(255, 0, 0);
+      font-style: italic;
+    }
+
+    .input-field {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 50px;
+    }
+
+    input {
+      font-family: "Snippet", sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-style: normal;
+      display: flex;
+      width: -webkit-fill-available;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      box-shadow: 0 0 5px rgb(255, 255, 255), inset 0 0 3px rgb(31, 31, 31);
+      &.radio {
+        width: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+    }
+    .radioLabel {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      margin-top: 10px;
+      width: 100px;
+    }
+
+    input:focus {
+      outline-color: hsl(214, 56%, 54%);
+    }
+
+    button {
+      font-family: "Snippet", sans-serif;
+      font-weight: 600;
+      font-style: normal;
+      width: 200px;
+      padding: 17px 0;
+      background-color: white;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.63), inset 0 0 3px rgba(0, 0, 0, 0.63);
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      transition: all 0.3s ease;
+      align-self: center;
+    }
+
+    button:hover {
+      align-self: center;
+      width: 250px;
+      border-radius: 10px;
+      letter-spacing: 2px;
+      background-color: hsl(209, 61%, 56%);
+      color: hsl(0, 0%, 100%);
+      box-shadow: rgb(44, 119, 218) 0px 2px 10px 0px;
+      cursor: pointer;
+    }
+
+    button:active {
+      background-color: hsl(214, 56%, 54%);
+      color: hsl(0, 0%, 100%);
+      box-shadow: rgb(48, 136, 207) 0px 0px 0px 0px;
+      transform: translateY(1px);
+      transition: 100ms;
+    }
+  }
+
+  .registrations-label {
+    font-family: "Snippet", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    text-align: center;
+    color: hsl(0, 0%, 100%);
+  }
+
+  .no-registrations {
+    font-family: "Snippet", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    color: hsl(0, 0%, 100%);
+  }
+
+  .registrations {
+    font-family: "Snippet", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .registration-card {
+      background-color: white;
+      margin: 10px;
+      font-size: small;
+      box-shadow: 0px 0px 5px rgb(0, 0, 0);
+      display: flex;
+      border-radius: 5px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      position: relative;
+
+      h2 {
         display: flex;
-        flex-direction: column;
-        width: 50%;
-        margin: 10px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 5px 5px 5px gray;
-
-        h1 {
-            text-align: center;
-            margin-top: 0px;
-        }
-
-        .error-label {
-            font-size: 13px;
-            color: rgb(255, 0, 0);
-            font-style: italic;
-        }
-
-        .input-field {
-            margin-bottom: 20px;
-        }
-
-        label {
-            margin-bottom: 50px;
-        }
-
-        input {
-            display: flex;
-            width: -webkit-fill-available;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        input:focus {
-            outline-color: hsl(214, 56%, 54%);
-        }
-
-        button {
-            padding: 17px 40px;
-            border-radius: 5px;
-            border: 0;
-            background-color: white;
-            box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
-            font-size: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            transition: all .3s ease;
-        }
-
-        button:hover {
-            background-color: hsl(226, 61%, 56%);
-            color: hsl(0, 0%, 100%);
-            box-shadow: rgb(44, 119, 218) 0px 2px 10px 0px;
-            cursor: pointer;
-        }
-
-        button:active {
-            background-color: hsl(214, 56%, 54%);
-            color: hsl(0, 0%, 100%);
-            box-shadow: rgb(48, 136, 207) 0px 0px 0px 0px;
-            transform: translateY(1px);
-            transition: 100ms;
-        }
-    }
-
-    .registrations-label {
+        justify-content: center;
+        border-radius: 5px 5px 0px 0px;
+        width: 100%;
+        margin: 0px;
+        height: 3.5rem;
+        font-size: 30px;
+        align-items: center;
         text-align: center;
-        color: hsl(0, 0%, 100%)
-    }
+        position: static;
+        overflow: hidden;
+        object-fit: cover;
+        color: #fff;
+        background-color: hsl(214, 56%, 54%);
+        position: relative;
+      }
 
-    .no-registrations {
-        text-align: center;
-        color: hsl(0, 0%, 100%)
-    }
+      .close {
+        display: block;
+        width: 20px;
+        position: absolute;
+        background-color: transparent;
+        text-align: end;
+        top: 4%;
+        right: 3%;
+        font-size: 25px;
+        color: #fff;
+        border: none;
+        z-index: 10;
+        font-weight: 600;
+        transition: all 0.2s ease;
 
-    .registrations {
+        &:hover {
+          cursor: pointer;
+          color: rgb(31, 31, 31);
+          // transition: all .2s ease;
+        }
+      }
+
+      p {
+        margin: 6px;
+        border-bottom: 1px#cccccc solid;
+        width: 90%;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+        color: #333;
+        padding: 0px 0 5px 0;
+        overflow: hidden;
 
-        .registration-card {
-            background-color: white;
-            margin: 10px;
-            font-size: small;
-            box-shadow: 0px 0px 5px gray;
-            display: flex;
-            border-radius: 5px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            position: relative;
-
-            h2 {
-                display: flex;
-                justify-content: center;
-                border-radius: 5px 5px 0px 0px;
-                width: 100%;
-                margin: 0px;
-                height: 3.5rem;
-                font-size: 30px;
-                align-items: center;
-                text-align: center;
-                position: static;
-                overflow: hidden;
-                object-fit: cover;
-                color: #fff;
-                background-color: rgb(33, 51, 75);
-                position: relative;
-
-            }
-
-            .close {
-                display: block;
-                width: 20px;
-                position: absolute;
-                background-color: transparent;
-                text-align: end;
-                top: 0%;
-                right: 3%;
-                font-size: 30px;
-                color: #fff;
-                border: none;
-                z-index: 10;
-                transition: all .2s ease;
-
-                &:hover {
-                    cursor: pointer;
-                    color: rgb(69, 96, 132);
-                    // transition: all .2s ease;
-                }
-            }
-
-            p {
-                margin: 6px;
-                border-bottom: 1px#cccccc solid;
-                width: 90%;
-                display: flex;
-                align-items: center;
-                background-color: rgb(255, 255, 255);
-                color: #333;
-                padding: 0px 0 5px 0;
-                overflow: hidden;
-
-                strong {
-                    color: #000000;
-                }
-            }
-
-            p:last-child {
-                border: none;
-            }
+        strong {
+          color: #000000;
         }
+      }
 
+      p:last-child {
+        border: none;
+      }
     }
+  }
 }
